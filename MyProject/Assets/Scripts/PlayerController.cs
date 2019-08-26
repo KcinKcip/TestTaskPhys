@@ -1,30 +1,33 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
-    public float speed;
-    //public GameObject Camera;
-
-    public GameObject sceneSwitcher;
-    //private SceneController sceneController;
+    [SerializeField]
+    float speed;
+    Rigidbody rb;
 
     void Awake()
     {
-    //    sceneController = sceneSwitcher.GetComponent<SceneController>();
+        rb = GetComponent<Rigidbody>();
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("EndLevel")) {
-    //        Invoke("ReloadScene", 2f);
+        if (other.gameObject.CompareTag("EndLevel"))
+        {
+            Invoke("Restart", 2f);
         }
     }
 
-    void ReloadScene()
+    public void Restart()
     {
-    //    sceneController.ReloadScene();
+        SceneManager.LoadScene("Main");
+    }
+
+    private void Update()
+    {
+        rb.AddForce(new Vector3(0, -speed, 0));
     }
 }
-
+  
